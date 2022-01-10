@@ -1,29 +1,64 @@
-// Importing required modules
-const cors = require('cors');
-const express = require('express');
+import path from 'path'
+import express from 'express'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import morgan from 'morgan'
+import { notFound, errorHandler } from './middleware/errorMiddleware.js'
+import connectDB from './config/db.js'
 
-// parse env variables
-require('dotenv').config();
+import authRoutes from './routes/auth-routes'
+import movieRoutes from './routes/movie-routes'
+import playlistRoutes from './routes/playlist-routes'
+import categoryRoutes from './routes/category-routes'
+import userRoutes from './routes/user-routes'
 
-// Configuring port
-const port = process.env.PORT || 9000;
+dotenv.config()
 
-const app = express();
+connectDB()
+
+const app = express()
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
 
 // Configure middlewares
 app.use(cors());
-app.use(express.json());
 
 app.set('view engine', 'html');
+app.use(express.json())
+
+const __dirname = path.resolve()
+
+app.use('/api/auth', authRoutes)
+app.use('/api/movie', movieRoutes)
+app.use('/api/category', categoryRoutes)
+app.use('/api/playlist', playlistRoutes)
+app.use('/api/users', userRoutes)
 
 // Static folder
 app.use(express.static(__dirname + '/views/'));
 
-// Defining route middleware
-app.use('/api', require('./routes/api'));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/frontend/build')))
 
-// Listening to port
-app.listen(port);
-console.log(`Listening On http://localhost:${port}/api`);
+  app.get('/', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  )
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running....')
+  })
+}
 
-module.exports = app;
+app.use(notFound)
+app.use(errorHandler)
+
+const PORT = process.env.PORT || 5000
+
+app.listen(
+  PORT,
+  console.log(
+    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
+  )
+)
