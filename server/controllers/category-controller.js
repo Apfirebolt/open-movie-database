@@ -1,34 +1,29 @@
 import asyncHandler from "express-async-handler";
-import Goal from "../models/goalModel.js";
+import Category from "../models/Category.js";
 
-// @desc    Create an Goal for logged in users
-// @route   POST /api/goals
+// @desc    Create a category
+// @route   POST /api/category
 // @access  Private
-const createGoal = asyncHandler(async (req, res) => {
-  const { title, content, status, duration, amount } = req.body;
-  console.log('Req body for goal ', req.body);
-  const goal = await Goal.create({
-    title,
-    content,
-    status,
-    duration,
-    amount,
+const createCategory = asyncHandler(async (req, res) => {
+  const { name } = req.body;
+  const category = await Category.create({
+    name,
     createdBy: req.user._id,
   });
-  if (goal) {
-    res.status(201).json(goal);
+  if (category) {
+    res.status(201).json(category);
   } else {
     res.status(400);
-    throw new Error("Invalid Goal data");
+    throw new Error("Invalid Category data");
   }
 });
 
-// @desc    Update an existing Goal
-// @route   PATCH /api/goals/:id
+// @desc    Update an existing Category
+// @route   PATCH /api/category/:id
 // @access  Private
-const updateGoal = asyncHandler(async (req, res) => {
+const updateCategory = asyncHandler(async (req, res) => {
 
-  const goal = await Goal.findOneAndUpdate(
+  const category = await Category.findOneAndUpdate(
     { createdBy: req.user._id, _id: req.params.id },
     req.body,
     {
@@ -36,64 +31,64 @@ const updateGoal = asyncHandler(async (req, res) => {
     }
   );
 
-  if (goal) {
-    res.json(goal);
+  if (category) {
+    res.json(category);
   } else {
     res.status(404);
-    throw new Error("Goal not found");
+    throw new Error("Category not found");
   }
 });
 
 // @desc    Get details for a single Goal profile
-// @route   GET /api/goals/:id
+// @route   GET /api/category/:id
 // @access  Private
-const getGoalDetail = asyncHandler(async (req, res) => {
-  const goal = await Goal.findOne({
+const getCategoryDetail = asyncHandler(async (req, res) => {
+  const category = await Category.findOne({
     createdBy: req.user._id,
     _id: req.params.id,
   });
 
-  if (goal) {
+  if (category) {
     res.json({
-      goal,
+      category,
     });
   } else {
     res.status(404);
-    throw new Error("Goal not found");
+    throw new Error("Category not found");
   }
 });
 
-// @desc    Get all user Goals
-// @route   PUT /api/goals
+// @desc    Get all user Categories
+// @route   PUT /api/category
 // @access  Private
-const getAllGoals = asyncHandler(async (req, res) => {
-  const goals = await Goal.find({
+const getAllCategory = asyncHandler(async (req, res) => {
+  const categories = await Category.find({
     createdBy: req.user._id,
   });
   res.json({
-    goals,
+    categories,
   });
 });
 
-// @desc    Delete user Goal
-// @route   DELETE /api/goal/:id
+// @desc    Delete user Category
+// @route   DELETE /api/category/:id
 // @access  Private
-const deleteGoal = asyncHandler(async (req, res) => {
-  const isGoalDeleted = await Goal.deleteOne(
+const deleteCategory = asyncHandler(async (req, res) => {
+  const isCategoryDeleted = await Category.deleteOne(
     { createdBy: req.user._id, _id: req.params.id },
     {
       useFindAndModify: false,
     }
   );
 
-  if (isGoalDeleted) {
+  if (isCategoryDeleted) {
     res.json({
-      message: "Goal deleted successfully",
+      message: "Category deleted successfully",
     });
   } else {
     res.status(404);
-    throw new Error("Goal not found");
+    throw new Error("Category not found");
   }
 });
 
-export { createGoal, getGoalDetail, deleteGoal, updateGoal, getAllGoals };
+export { createCategory, updateCategory, deleteCategory, getAllCategory, getCategoryDetail };

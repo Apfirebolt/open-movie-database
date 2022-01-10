@@ -1,32 +1,30 @@
 import asyncHandler from "express-async-handler";
-import Income from "../models/IncomeModel.js";
+import Playlist from "../models/Playlist";
 
-// @desc    Create an Income Source for logged in users
-// @route   POST /api/income
+// @desc    Create a playlist
+// @route   POST /api/playlist
 // @access  Private
-const createIncome = asyncHandler(async (req, res) => {
-  const { source, content, period, amount } = req.body;
-  const income = await Income.create({
-    source,
-    content,
-    period,
-    amount,
+const createPlaylist = asyncHandler(async (req, res) => {
+  const { title, category } = req.body;
+  const playlist = await Playlist.create({
+    title,
+    category,
     createdBy: req.user._id,
   });
-  if (income) {
-    res.status(201).json(income);
+  if (playlist) {
+    res.status(201).json(playlist);
   } else {
     res.status(400);
-    throw new Error("Invalid Income data");
+    throw new Error("Invalid Playlist data");
   }
 });
 
-// @desc    Update an existing Income
-// @route   PATCH /api/income/:id
+// @desc    Update an existing Playlist
+// @route   PATCH /api/playlist/:id
 // @access  Private
-const updateIncome = asyncHandler(async (req, res) => {
+const updatePlaylist = asyncHandler(async (req, res) => {
 
-  const income = await Income.findOneAndUpdate(
+  const playlist = await Playlist.findOneAndUpdate(
     { createdBy: req.user._id, _id: req.params.id },
     req.body,
     {
@@ -34,64 +32,60 @@ const updateIncome = asyncHandler(async (req, res) => {
     }
   );
 
-  if (income) {
-    res.json(income);
+  if (playlist) {
+    res.json(playlist);
   } else {
     res.status(404);
-    throw new Error("Income not found");
+    throw new Error("Playlist not found");
   }
 });
 
-// @desc    Get details for a single Income profile
-// @route   GET /api/income/:id
+// @desc    Get details for a single playlist
+// @route   GET /api/playlist/:id
 // @access  Private
-const getIncomeDetail = asyncHandler(async (req, res) => {
-  const income = await Income.findOne({
+const getPlaylistDetail = asyncHandler(async (req, res) => {
+  const playlist = await Playlist.findOne({
     createdBy: req.user._id,
     _id: req.params.id,
   });
 
-  if (income) {
-    res.json({
-      Income,
-    });
+  if (playlist) {
+    res.json(playlist);
   } else {
     res.status(404);
-    throw new Error("Income not found");
+    throw new Error("Playlist not found");
   }
 });
 
-// @desc    Get all user Incomes
-// @route   PUT /api/income
+// @desc    Get all user playlists
+// @route   PUT /api/playlist
 // @access  Private
-const getAllIncomes = asyncHandler(async (req, res) => {
-  const incomes = await Income.find({
+const getAllPlaylist = asyncHandler(async (req, res) => {
+  const playlists = await Playlist.find({
     createdBy: req.user._id,
   });
-  res.json({
-    incomes,
-  });
+  res.json(playlists);
 });
 
-// @desc    Delete user Income
-// @route   DELETE /api/income/:id
+// @desc    Delete user Playlist
+// @route   DELETE /api/playlist/:id
 // @access  Private
-const deleteIncome = asyncHandler(async (req, res) => {
-  const isIncomeDeleted = await Income.deleteOne(
+const deletePlaylist = asyncHandler(async (req, res) => {
+  const isPlaylistDeleted = await Playlist.deleteOne(
     { createdBy: req.user._id, _id: req.params.id },
     {
       useFindAndModify: false,
     }
   );
 
-  if (isIncomeDeleted) {
+  if (isPlaylistDeleted) {
     res.json({
-      message: "Income deleted successfully",
+      message: "Playlist deleted successfully",
     });
   } else {
     res.status(404);
-    throw new Error("Income not found");
+    throw new Error("Playlist not found");
   }
 });
 
-export { createIncome, getIncomeDetail, deleteIncome, updateIncome, getAllIncomes };
+export { createPlaylist, updatePlaylist, deletePlaylist, getAllPlaylist, getPlaylistDetail };

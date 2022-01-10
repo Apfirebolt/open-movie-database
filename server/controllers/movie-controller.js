@@ -1,98 +1,131 @@
 import asyncHandler from "express-async-handler";
-import Expense from "../models/expenseModel.js";
+import Movie from "../models/Movie.js";
 
-// @desc    Create an Expense for logged in users
-// @route   POST /api/expenses
+// @desc    Save a movie from OMDB API
+// @route   POST /api/movie
 // @access  Private
-const createExpense = asyncHandler(async (req, res) => {
-    const { note, amount, date } = req.body;
-    const expense = await Expense.create({
-        note,
-        amount,
-        date,
-        createdBy: req.user._id,
-    });
-    if (expense) {
-        res.status(201).json(expense);
-      } else {
-        res.status(400);
-        throw new Error("Invalid expense data");
-      }
-});
-
-// @desc    Update an existing Expense
-// @route   PATCH /api/expenses/:id
-// @access  Private
-const updateExpense = asyncHandler(async (req, res) => {
-  const { amount, note, date } = req.body;
-
-  const expense = await Expense.findOneAndUpdate({ createdBy: req.user._id, _id: req.params.id }, req.body, {
-    new: true,
+const createMovie = asyncHandler(async (req, res) => {
+  const {
+    title,
+    year,
+    rated,
+    released,
+    genre,
+    director,
+    writer,
+    actors,
+    plot,
+    language,
+    country,
+    awards,
+    poster,
+    ratings,
+    imdbVotes,
+    imdbRatings,
+    imdbId,
+    collection,
+  } = req.body;
+  const movie = await Movie.create({
+    title,
+    year,
+    rated,
+    released,
+    genre,
+    director,
+    writer, 
+    actors,
+    plot,
+    language,
+    country,
+    awards,
+    poster,
+    ratings,
+    imdbVotes,
+    imdbRatings,
+    imdbId,
+    collection,
+    createdBy: req.user._id,
   });
-
-  if (expense) {
-    res.json(expense)
+  if (movie) {
+    res.status(201).json(movie);
   } else {
-    res.status(404)
-    throw new Error('Expense not found')
+    res.status(400);
+    throw new Error("Invalid Movie data");
   }
 });
 
-// @desc    Get details for a single expense profile
-// @route   GET /api/expenses/:id
+// @desc    Update an existing Movie
+// @route   PATCH /api/movie/:id
 // @access  Private
-const getExpenseDetail = asyncHandler(async (req, res) => {
-    const expense = await Expense.findOne(
-        { createdBy: req.user._id, _id: req.params.id },
-      );
-    
-      if (expense) {
-        res.json({
-          expense
-        });
-      } else {
-        res.status(404);
-        throw new Error("Expense not found");
-      }
+const updateMovie = asyncHandler(async (req, res) => {
+  const movie = await Movie.findOneAndUpdate(
+    { createdBy: req.user._id, _id: req.params.id },
+    req.body,
+    {
+      new: true,
+    }
+  );
+
+  if (movie) {
+    res.json(movie);
+  } else {
+    res.status(404);
+    throw new Error("Movie not found");
+  }
 });
 
-// @desc    Get all user expenses
-// @route   PUT /api/expenses
+// @desc    Get details for a single Movie
+// @route   GET /api/movie/:id
 // @access  Private
-const getAllExpenses = asyncHandler(async (req, res) => {
-  const expenses = await Expense.find({
+const getMovieDetail = asyncHandler(async (req, res) => {
+  const movie = await Movie.findOne({
+    createdBy: req.user._id,
+    _id: req.params.id,
+  });
+
+  if (movie) {
+    res.json(movie);
+  } else {
+    res.status(404);
+    throw new Error("Movie not found");
+  }
+});
+
+// @desc    Get all user saved Movies
+// @route   PUT /api/movie
+// @access  Private
+const getAllMovies = asyncHandler(async (req, res) => {
+  const movies = await Movie.find({
     createdBy: req.user._id,
   });
-  res.json({
-    expenses
-  });
+  res.json(movies);
 });
 
-// @desc    Delete user expense
-// @route   DELETE /api/expense/:id
+// @desc    Delete saved movie by user
+// @route   DELETE /api/movie/:id
 // @access  Private
-const deleteExpense = asyncHandler(async (req, res) => {
-  const isExpenseDeleted = await Expense.deleteOne(
+const deleteMovie = asyncHandler(async (req, res) => {
+  const isMovieDeleted = await Movie.deleteOne(
     { createdBy: req.user._id, _id: req.params.id },
     {
       useFindAndModify: false,
     }
   );
 
-  if (isExpenseDeleted) {
+  if (isMovieDeleted) {
     res.json({
-      message: "Expense deleted successfully",
+      message: "Movie deleted successfully",
     });
   } else {
     res.status(404);
-    throw new Error("Expense not found");
+    throw new Error("Movie not found");
   }
 });
 
 export {
-  createExpense,
-  getExpenseDetail,
-  deleteExpense,
-  updateExpense,
-  getAllExpenses,
+  createMovie,
+  updateMovie,
+  deleteMovie,
+  getAllMovies,
+  getMovieDetail,
 };
