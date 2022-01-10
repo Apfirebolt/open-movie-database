@@ -2,7 +2,7 @@
   "name": "open-movie-db",
   "template": "PWA",
   "isConfigured": {
-    "client": false,
-    "server": false
+    "client": true,
+    "server": true
   }
 }
