@@ -1,0 +1,13 @@
+// category constants
+
+export const GET_ALL_CATEGORY = "category/GET_ALL_CATEGORY";
+export const GET_ALL_CATEGORY_ACTION = "category/GET_ALL_CATEGORY_ACTION";
+export const SET_ALL_CATEGORY = "category/SET_ALL_CATEGORY";
+
+export const GET_CATEGORY_DETAIL = "category/GET_CATEGORY_DETAIL";
+export const GET_CATEGORY_DETAIL_ACTION = "category/GET_CATEGORY_DETAIL_ACTION";
+export const SET_CATEGORY_DETAIL = "category/SET_CATEGORY_DETAIL";
+
+export const CREATE_CATEGORY_ACTION = "category/CREATE_CATEGORY_ACTION";
+export const UPDATE_CATEGORY_ACTION = "category/UPDATE_CATEGORY_ACTION";
+export const DELETE_CATEGORY_ACTION = "category/DELETE_CATEGORY_ACTION";
