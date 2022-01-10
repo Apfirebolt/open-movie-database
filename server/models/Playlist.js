@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import movieSchema from './Movie';
 
 const playlistSchema = new mongoose.Schema(
   {
@@ -11,7 +10,12 @@ const playlistSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
-    movies: [movieSchema],
+    movies: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Movie",
+      },
+    ],
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

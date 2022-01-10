@@ -6,11 +6,11 @@ import morgan from 'morgan'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import connectDB from './config/db.js'
 
-import authRoutes from './routes/auth-routes'
-import movieRoutes from './routes/movie-routes'
-import playlistRoutes from './routes/playlist-routes'
-import categoryRoutes from './routes/category-routes'
-import userRoutes from './routes/user-routes'
+import authRoutes from './routes/auth-routes.js'
+import movieRoutes from './routes/movie-routes.js'
+import playlistRoutes from './routes/playlist-routes.js'
+import categoryRoutes from './routes/category-routes.js'
+import userRoutes from './routes/user-routes.js'
 
 dotenv.config()
 

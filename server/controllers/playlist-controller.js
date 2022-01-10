@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import Playlist from "../models/Playlist";
+import Playlist from "../models/Playlist.js";
 
 // @desc    Create a playlist
 // @route   POST /api/playlist

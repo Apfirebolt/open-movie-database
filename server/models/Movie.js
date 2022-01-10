@@ -13,7 +13,7 @@ const movieSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    year: {
+    releaseYear: {
       type: Number,
       required: true,
     },
@@ -74,7 +74,7 @@ const movieSchema = new mongoose.Schema(
       type: String,
       required: false
     },
-    collection: {
+    movieCollection: {
       type: String,
       required: false
     },
