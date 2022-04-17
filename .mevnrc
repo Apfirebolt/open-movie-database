@@ -1,8 +1,0 @@
-{
-  "name": "open-movie-db",
-  "template": "PWA",
-  "isConfigured": {
-    "client": true,
-    "server": true
-  }
-}

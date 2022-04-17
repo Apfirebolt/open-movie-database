@@ -19,7 +19,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // @route   GET /api/users/:id
 // @access  Public
 const getUserById = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.req.params.id);
+  const user = await User.findById(req.params.id);
 
   if (user) {
     res.status(200).json({
