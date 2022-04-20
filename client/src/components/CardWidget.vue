@@ -13,7 +13,7 @@
       </div>
       <div v-if="icon" class="level-item has-widget-icon">
         <div class="is-widget-icon">
-          <b-icon :icon="icon" size="is-large" :type="type" />
+          <b-icon :icon="icon" size="is-small" :type="type" />
         </div>
       </div>
     </div>

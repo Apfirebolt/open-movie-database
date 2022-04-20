@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import PasswordUpdateForm from '@/components/PasswordUpdateForm.vue'
+import LoginForm from '@/components/LoginForm.vue'
 
 export default {
   name: "Login",
   components: {
-    PasswordUpdateForm,
+    LoginForm,
   }
 };
 </script>

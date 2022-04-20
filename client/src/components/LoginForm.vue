@@ -1,37 +1,23 @@
 <template>
-  <card-component title="Change Password" icon="lock">
+  <card-component title="Login" icon="user">
     <form @submit.prevent="submit">
       <b-field
         horizontal
-        label="Current password"
-        message="Required. Your current password"
+        label="Email"
+        message="Required. Your email is required"
       >
         <b-input
-          v-model="form.password_current"
-          name="password_current"
-          type="password"
+          v-model="form.email"
+          name="email"
+          type="text"
           required
-          autcomplete="current-password"
         />
       </b-field>
       <hr />
-      <b-field horizontal label="New password" message="Required. New password">
+      <b-field horizontal label="Your Password" message="Required. Your password is required">
         <b-input
           v-model="form.password"
           name="password"
-          type="password"
-          required
-          autocomplete="new-password"
-        />
-      </b-field>
-      <b-field
-        horizontal
-        label="Confirm password"
-        message="Required. New password one more time"
-      >
-        <b-input
-          v-model="form.password_confirmation"
-          name="password_confirmation"
           type="password"
           required
           autocomplete="new-password"
@@ -56,7 +42,7 @@
 <script>
 import CardComponent from '@/components/CardComponent'
 export default {
-  name: 'PasswordUpdateForm',
+  name: 'LoginForm',
   components: {
     CardComponent
   },
@@ -64,9 +50,8 @@ export default {
     return {
       isLoading: false,
       form: {
-        password_current: null,
+        email: null,
         password: null,
-        password_confirmation: null
       }
     }
   },

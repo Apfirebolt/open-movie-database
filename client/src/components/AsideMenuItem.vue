@@ -18,7 +18,7 @@
         item.label
       }}</span>
       <div v-if="hasDropdown" class="dropdown-icon">
-        <b-icon :icon="dropdownIcon" custom-size="default" />
+        <b-icon :icon="dropdownIcon" />
       </div>
     </component>
     <aside-menu-list

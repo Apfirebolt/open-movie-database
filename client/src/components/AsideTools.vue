@@ -1,7 +1,7 @@
 <template>
   <div class="aside-tools">
     <div class="aside-tools-label">
-      <b-icon v-if="icon" :icon="icon" custom-size="default" />
+      <b-icon v-if="icon" :icon="icon" />
       <slot name="label" />
     </div>
   </div>
