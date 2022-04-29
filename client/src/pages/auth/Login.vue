@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>Login Page</p>
-    <password-update-form />
+    <login-form />
   </div>
 </template>
 
