@@ -1,5 +1,5 @@
 <template>
-  <div v-if="movieData" class="card">
+  <div v-if="!movieData.Error" class="card">
     <div class="card-image">
       <figure class="image is-4by3">
         <img :src="movieData.Poster" alt="Image" />
@@ -20,11 +20,16 @@
         <p>{{ movieData.Director }}</p>
         <h3 v-if="movieData.Writer" class="mt-3">Writer</h3>
         <p>{{ movieData.Writer }}</p>
-        {{ movieData }}
+        {{ movieData.Error }}
         <br />
         <small>Rated {{ movieData.imdbRating }} with {{ movieData.imdbVotes }} votes on IMDB</small>
       </div>
     </div>
+  </div>
+  <div v-else class="card">
+    <h3 class="is-4 p-3">
+      No movie found with that name
+    </h3>
   </div>
 </template>
 

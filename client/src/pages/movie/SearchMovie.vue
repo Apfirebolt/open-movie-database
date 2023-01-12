@@ -27,7 +27,6 @@ export default {
   methods: {
     async getMovieData(movieName) {
       const apiKey = process.env.VUE_APP_API_KEY;
-      console.log("Movie name passed ", movieName);
       this.isLoading = true;
       const movieResponse = await axios.get(
         `http://www.omdbapi.com/?t=${movieName}&apikey=${apiKey}`

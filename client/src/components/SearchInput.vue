@@ -1,5 +1,5 @@
 <template>
-  <card-component title="Login" icon="user">
+  <card-component>
     <form @submit.prevent="submit">
       <b-field
         horizontal

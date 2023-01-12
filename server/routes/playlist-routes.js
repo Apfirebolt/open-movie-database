@@ -5,7 +5,8 @@ import {
   updatePlaylist,
   getAllPlaylist,
   getPlaylistDetail,
-  deletePlaylist
+  deletePlaylist,
+  addMovieToPlaylist
 } from '../controllers/playlist-controller.js'
 import { protect } from '../middleware/authMiddleware.js'
 
@@ -19,5 +20,9 @@ router
   .get(protect, getPlaylistDetail)
   .put(protect, updatePlaylist)
   .delete(protect, deletePlaylist)
+
+router
+  .route('/:id/add-movie')
+  .patch(protect, addMovieToPlaylist)
 
 export default router

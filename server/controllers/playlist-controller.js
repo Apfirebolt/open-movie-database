@@ -63,7 +63,8 @@ const getPlaylistDetail = asyncHandler(async (req, res) => {
 const getAllPlaylist = asyncHandler(async (req, res) => {
   const playlists = await Playlist.find({
     createdBy: req.user._id,
-  });
+  })
+  .populate('movies', "_id title")
   res.json(playlists);
 });
 
@@ -88,4 +89,25 @@ const deletePlaylist = asyncHandler(async (req, res) => {
   }
 });
 
-export { createPlaylist, updatePlaylist, deletePlaylist, getAllPlaylist, getPlaylistDetail };
+// @desc    Add a movie to playlist
+// @route   PATCH /api/playlist/:id/add-movie
+// @access  Private
+const addMovieToPlaylist = asyncHandler(async (req, res) => {
+
+  const { movie } = req.body
+  const playlist = await Playlist.findOneAndUpdate({ _id: req.params.id, createdBy: req.user._id }, { $push: { movies: movie } }, {
+    new: true
+  })
+
+  if (playlist) {
+    res.status(200).json({
+      playlist,
+      message: 'Movie added to Playlist'
+    })
+  } else {
+    res.status(404)
+    throw new Error("Playlist not found")
+  }
+});
+
+export { createPlaylist, updatePlaylist, deletePlaylist, getAllPlaylist, getPlaylistDetail, addMovieToPlaylist };
